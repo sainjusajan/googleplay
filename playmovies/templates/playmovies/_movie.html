@@ -1,0 +1,18 @@
+{% load staticfiles%}
+<div class="item">
+    <a href="{% url 'playmovies:moviedetail' pk=movie.pk %}">
+        <div class="wrapper">
+            <img src="{{ movie.poster }}" alt="" class="img img-responsive">
+            <div class="detail-section">
+
+                <h4 class="title">{{ movie.name }}</h4>
+                <p class="genre"> {% for genre in movie.genre.all %}
+                <span>{{ genre }},</span>
+                {% endfor %}
+                 </p>
+            </div>
+        </div>
+    </a>
+</div>
+
+

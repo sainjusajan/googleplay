@@ -28,7 +28,7 @@ def getSeriesList(driver):
 	tvseries = [
 		{'url':'abc.com',
 		 'details': 'lorem ipsum',
-		 'title': 'GOT',
+		 'title': 'GOT', (not yet)
 		},
 		...
 	]
@@ -53,7 +53,7 @@ def getSeriesList(driver):
 	except Exception as e:
 		print(e)
 	else:
-		print(str(len(tvseries)) + " movies found")
+		print(str(len(tvseries)) + " tv series found")
 		return tvseries
 
     
@@ -78,79 +78,20 @@ def getSeriesInfo(driver):
 	return poster, title, rating, n_raters, genres, release_date
 
 
-def getSeasons(driver, series):
-	seasons_dropdown = driver.find_element_by_xpath("//div[@class='season-selector-dropdown']")
-	driver.execute_script("arguments[0].setAttribute('style','visibility:visible;');",seasons_dropdown)
-
-	season_elements = seasons_dropdown.find_elements_by_xpath(".//div")
-	seasons = {}
-	for season in season_elements:
-		name = season.text
-		season_id = season.get_attribute('data-season-id')
-		url = series['url'] + '&cdid=' + season_id
-		seasons[name] = url
-	print(seasons)
-	return seasons
 
 def getSeasonCost(driver):
-	path = "//span[@class='movies large play-button buy-button-container']/button"
-	if len(driver.find_elements_by_xpath(path))>0:
-		button = driver.find_element_by_xpath("//span[@class='movies large play-button buy-button-container']/button")
-		cost = button.text
-		print("Cost is: {}".format(cost))
-		return cost
-	else:
+	try:
+		if len(driver.find_elements_by_class_name("season-buy-button-container"))>0:
+			season_container = driver.find_element_by_class_name("season-buy-button-container")
+			button = season_container.find_elements_by_tag_name("button")
+			cost = button.text
+			print("Cost is: {}".format(cost))
+			return cost
+		else:
+			return ""
+	except Exception as e:
 		return ""
 
-def getAllEpisodes(driver, season):
-	print("Scraping all episodes for season")
-	time.sleep(random.randint(2,4))
-	episode_elements = driver.find_elements_by_xpath("//div[@class='id-card-list card-list two-cards']/div")
-	print("{} episodes found..".format(len(episode_elements)))
-	allEpisodes = {}
-	try:
-		for i in episode_elements:
-			episode = {}
-			content = i.find_element_by_xpath(".//div")
-
-			url = content.find_element_by_tag_name('a').get_attribute('href')
-
-			cover_element = content.find_element_by_xpath("//div[@class='cover']")
-			cover_image = cover_element.find_element_by_tag_name("img").get_attribute("src")
-
-			details = content.find_element_by_xpath(".//div[@class='details']")
-			description_element = details.find_element_by_class_name('description')
-			description = driver.execute_script("return arguments[0].textContent", description_element)
-
-			title = details.find_element_by_xpath(".//span[@class='epname-number']").text
-			number_element = driver.find_element_by_xpath(".//span[@class='title-season-episode-num']")
-			number = driver.execute_script("return arguments[0].textContent", number_element)
-			release_date = details.find_element_by_xpath(".//span[@class='subtitle-releasedate']").text
-			
-
-			if sel_utils.isPresent(driver, By.XPATH, "//span[@class='movies is-price-tag buy-button-container']/button"):
-				button = driver.find_element_by_xpath("//span[@class='movies is-price-tag buy-button-container']/button")
-				cost = button.text
-			else:
-				cost = ""
-
-			print(url, cover_image, description, title, number, release_date, cost)
-
-			episode['url'] = url
-			episode['cover_image'] = cover_image
-			episode['description'] = description
-			episode['title'] = title
-			episode['release_date'] = release_date
-			episode['cost'] = cost
-
-			allEpisodes[number] = episode
-		print(allEpisodes)
-
-	except Exception as e:
-		print(e)
-	else:
-		print(str(len(allEpisodes)) + " episodes found")
-		return allEpisodes
 
 
 def getSeriesFullDict(driver, series_dict):
@@ -254,15 +195,79 @@ def getSeriesFullDict(driver, series_dict):
 
 	SeriesDict['seasons'] = seasons
 
-	print(SeriesDict)
+	print(SeriesDict.values())
+	return SeriesDict
 
 
 
 
 
+# def getSeasons(driver, series):
+# 	seasons_dropdown = driver.find_element_by_xpath("//div[@class='season-selector-dropdown']")
+# 	driver.execute_script("arguments[0].setAttribute('style','visibility:visible;');",seasons_dropdown)
+
+# 	season_elements = seasons_dropdown.find_elements_by_xpath(".//div")
+# 	seasons = {}
+# 	for season in season_elements:
+# 		name = season.text
+# 		season_id = season.get_attribute('data-season-id')
+# 		url = series['url'] + '&cdid=' + season_id
+# 		seasons[name] = url
+# 	print(seasons)
+# 	return seasons
 
 
 
+
+# def getAllEpisodes(driver, season):
+# 	print("Scraping all episodes for season")
+# 	time.sleep(random.randint(2,4))
+# 	episode_elements = driver.find_elements_by_xpath("//div[@class='id-card-list card-list two-cards']/div")
+# 	print("{} episodes found..".format(len(episode_elements)))
+# 	allEpisodes = {}
+# 	try:
+# 		for i in episode_elements:
+# 			episode = {}
+# 			content = i.find_element_by_xpath(".//div")
+
+# 			url = content.find_element_by_tag_name('a').get_attribute('href')
+
+# 			cover_element = content.find_element_by_xpath("//div[@class='cover']")
+# 			cover_image = cover_element.find_element_by_tag_name("img").get_attribute("src")
+
+# 			details = content.find_element_by_xpath(".//div[@class='details']")
+# 			description_element = details.find_element_by_class_name('description')
+# 			description = driver.execute_script("return arguments[0].textContent", description_element)
+
+# 			title = details.find_element_by_xpath(".//span[@class='epname-number']").text
+# 			number_element = driver.find_element_by_xpath(".//span[@class='title-season-episode-num']")
+# 			number = driver.execute_script("return arguments[0].textContent", number_element)
+# 			release_date = details.find_element_by_xpath(".//span[@class='subtitle-releasedate']").text
+			
+
+# 			if sel_utils.isPresent(driver, By.XPATH, "//span[@class='movies is-price-tag buy-button-container']/button"):
+# 				button = driver.find_element_by_xpath("//span[@class='movies is-price-tag buy-button-container']/button")
+# 				cost = button.text
+# 			else:
+# 				cost = ""
+
+# 			print(url, cover_image, description, title, number, release_date, cost)
+
+# 			episode['url'] = url
+# 			episode['cover_image'] = cover_image
+# 			episode['description'] = description
+# 			episode['title'] = title
+# 			episode['release_date'] = release_date
+# 			episode['cost'] = cost
+
+# 			allEpisodes[number] = episode
+# 		print(allEpisodes)
+
+# 	except Exception as e:
+# 		print(e)
+# 	else:
+# 		print(str(len(allEpisodes)) + " episodes found")
+# 		return allEpisodes
 
 
 

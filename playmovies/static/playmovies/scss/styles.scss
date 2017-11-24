@@ -278,7 +278,7 @@ a:focus, a:hover {
   padding: 3em;
   padding-top: 0;
   #season_selector {
-    max-width: 120px;
+    max-width: 175px;
     background: transparent;
     border: 0;
     box-shadow: none;
@@ -327,3 +327,13 @@ a:focus, a:hover {
     color: initial;
   }
 }
+.put_handle {
+  display: block;
+  cursor: pointer;
+}
+//.single-ep-desc{
+//  display: none;
+//}
+//.s_important{
+//  display: block !important;
+//}

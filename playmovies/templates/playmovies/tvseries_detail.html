@@ -1,0 +1,252 @@
+{% extends "playmovies/base.html" %}
+{% load staticfiles %}
+
+
+{% block content %}
+
+    <section id="main-title">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="f-w-300">GooglePlay Movies</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {% include "playmovies/includes/header.html" %}
+    <section id="categorical" class="contain-movies">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2 class="section_title f-w-300">TV Series</h2>
+                </div>
+                <div id="movie_detail" class="fix_clearfix">
+
+                    <div class="col-md-12">
+                        <div class="tvseries_wrapper has-box-shadow">
+                            <div class="tv-series-main">
+                                <div class="movie_detail_wrapper has-box-shadow">
+                                    <a class="media-left" href="#">
+                                        <img src="{{ tvseries.poster }}"
+                                             class="main_series_image">
+                                    </a>
+                                    <div class="media-body">
+                                        <div class="ratings_here pull-right">
+
+                                            <h4>{{ tvseries.rating }}<span class="glyphicon glyphicon-star"></span></h4>
+                                            <p>
+                                                <span class="f-s-12"> by {{ tvseries.n_raters }}</span><span
+                                                    class="glyphicon glyphicon-user f-s-12"></span></p>
+
+                                        </div>
+                                        <h4 class="media-heading movie_name">{{ tvseries.name }}</h4>
+                                        <p class="m-b-5"><span>{{ tvseries.releaseDate }}</span><span class=""></span>
+                                        </p>
+                                        <p class="genre">
+                                            {% for genre in tvseries.category.all %}
+
+                                                <span>{{ genre }}</span>
+
+                                            {% endfor %}
+                                        </p>
+
+                                    </div>
+                                    <p class="description">{{ tvseries.description }}
+                                    </p>
+                                    <div class="clearfix"></div>
+                                </div>
+
+                            </div>
+                            <div class="tv-series-season-episodes" style="">
+                                {% for season in tvSeasonAll %}
+                                    {% for episodes in season.episodes.all %}
+                                        <div class="single-ep-desc" id="single{{ season.name|cut:' ' }}{{ episodes.pk }}">
+                                            <div class="media">
+                                                <a class="media-left" href="#" style="">
+                                                    <div class="has-box-shadow" style="background: #fff;">
+                                                        <img src="{{ episodes.poster }}">
+                                                        <h4>{{ episodes.name }}<br></h4>
+                                                        <p class="tv_date f-s-14 f-w-300">{{ episodes.cost }}</p>
+                                                    </div>
+                                                </a>
+                                                <div class="media-body" style="">
+                                                    <h2 class="media-heading f-w-300">
+                                                        Episode {{ episodes.number }}<br>{{ episodes.name }}</h2>
+                                                    <p class="p-t-20">{{ episodes.description }}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    {% endfor %}
+
+                                {% endfor %}
+
+
+                            </div>
+
+                            <div class="tv-episodes-list-seasonwise">
+                                <!-- TAB NAVIGATION -->
+                                <select name="name" id="season_selector" class="form-control">
+                                    <option value="">Select One</option>
+                                    {% for season in tvSeasonAll %}
+                                        {% if forloop.first %}
+                                            <option value="{{ season.name|cut:' ' }}"
+                                                    selected>{{ season.name }}</option>
+                                        {% else %}
+                                            <option value="{{ season.name|cut:' ' }}">{{ season.name }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+
+                                    {#                                    <option value="season2">Season 2</option>#}
+                                    {#                                    <option value="season3">Season 3</option>#}
+                                </select>
+
+                                <!-- TAB CONTENT -->
+                                <div class="tab-content">
+                                    {% for season in tvSeasonAll %}
+                                        <div class="tab-pane fade in " id="{{ season.name|cut:' ' }}">
+                                            <div class="row">
+
+                                                {% for episode in season.episodes.all %}
+                                                    <div class="col-md-3">
+
+                                                        <div class="card has-box-shadow">
+                                                            <a onclick="changeSingle('{{ season.name|cut:" " }}{{ episode.pk }}')"
+                                                               class="fix_clearfix put_handle">
+                                                                <img src="{{ episode.poster }}"
+                                                                     class="img img-responsive">
+                                                                <div class="detail">
+                                                                    <h4>{{ episode.name }}<br></h4>
+                                                                    <p class="tv_date f-s-14 f-w-300">{{ episode.cost }}</p>
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                {% endfor %}
+
+                                            </div>
+
+                                        </div>
+                                    {% endfor %}
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+    </section>
+
+
+
+    <section id="categorical" class="contain-series" style="display: none">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2 class="section_title f-w-300">TV Series</h2>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="item">
+                        <div class="wrapper">
+
+                            <h4 class="title">Entourage</h4>
+                            <p class="genre">Commedy</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="item">
+                        <div class="wrapper">
+
+                            <h4 class="title">Entourage</h4>
+                            <p class="genre">Commedy</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="item">
+                        <div class="wrapper">
+
+                            <h4 class="title">Entourage</h4>
+                            <p class="genre">Commedy</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="item">
+                        <div class="wrapper">
+
+                            <h4 class="title">Entourage</h4>
+                            <p class="genre">Commedy</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="item">
+                        <div class="wrapper">
+
+                            <h4 class="title">Entourage</h4>
+                            <p class="genre">Commedy</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="item">
+                        <div class="wrapper">
+
+                            <h4 class="title">Entourage</h4>
+                            <p class="genre">Commedy</p>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </section>
+
+
+{% endblock %}
+{% block extra_js %}
+    <script>
+        var active_first = $('#season_selector').find(':selected').val();
+        $('#' + active_first).addClass('active');
+        $('.single-ep-desc').hide();
+        $($('.single-ep-desc')[0]).show();
+
+        function dothis(element) {
+            if (element.text == 'TV Series') {
+                $('.contain-movies').hide();
+                $('.contain-series').show();
+                $('.toggle-selector span').text(element.text);
+            } else if (element.text == 'Movies') {
+                $('.contain-series').hide();
+                $('.contain-movies').show();
+                $('.toggle-selector span').text(element.text);
+
+            }
+        }
+
+        $('#season_selector').change(function () {
+            var to_active = $(this).find(':selected').val();
+            $('.tab-pane').removeClass('active');
+            $('#' + to_active).addClass('active');
+        })
+
+        function changeSingle(changehandle) {
+            $('.single-ep-desc').hide();
+            $('#single'+changehandle).show();
+        }
+
+
+    </script>
+{% endblock %}

@@ -45,7 +45,7 @@ def fullpage_screenshot(driver, file):
             if not previous is None:
                 driver.execute_script("window.scrollTo({0}, {1})".format(rectangle[0], rectangle[1]))
                 time.sleep(0.2)
-                driver.execute_script("document.getElementById('topnav').setAttribute('style', 'position: absolute; top: 0px;');")
+                driver.execute_script("document.getElementByClass('action-bar-container').setAttribute('style', 'display:none !important');")
                 time.sleep(0.2)
                 print("Scrolled To ({0},{1})".format(rectangle[0], rectangle[1]))
                 time.sleep(0.2)
@@ -77,6 +77,6 @@ def fullpage_screenshot(driver, file):
 driver = webdriver.Chrome()
 
 ''' Generate document-height screenshot '''
-url = "https://www.w3schools.com/js/default.asp"
+url = "https://play.google.com/store/movies/details/Spider_Man_Homecoming?id=vaYRC8mIusY"
 driver.get(url)
-fullpage_screenshot(driver, "test1236.png")
+fullpage_screenshot(driver, "test12362.png")

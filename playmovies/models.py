@@ -42,7 +42,7 @@ class Genre(models.Model):
         return self.name
 
 class Movie(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=80)
     poster = models.CharField(max_length=200)
     length = models.CharField(max_length=10)
     releaseDate = models.CharField(max_length=50, default='')
@@ -64,12 +64,13 @@ class Movie(models.Model):
 
 
 class TVEpisode(models.Model):
-    number = models.CharField(max_length=15)
-    name = models.CharField(max_length=50, default='')
+    number = models.CharField(max_length=80)
+    name = models.CharField(max_length=80, default='')
     description = models.TextField()
+    releaseDate = models.CharField(max_length=50)
     # trailer = models.CharField(max_length=200)
     poster = models.CharField(max_length=200)
-    url = models.CharField(max_length=50)
+    url = models.CharField(max_length=200)
     cost = models.CharField(max_length=10)
 
     def __str__(self):
@@ -77,7 +78,7 @@ class TVEpisode(models.Model):
 
 
 class TVSeason(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=80)
     episodes = models.ManyToManyField(TVEpisode)
     cost = models.CharField(max_length=10)
     url = models.CharField(max_length=200, default='')
@@ -87,11 +88,11 @@ class TVSeason(models.Model):
 
 
 class TVSeries(models.Model):
-    name = models.CharField(max_length=50, default='')
-    description = models.TextField(default='')
+    name = models.CharField(max_length=80)
+    description = models.TextField()
     url = models.CharField(max_length=200)
     rating = models.CharField(max_length=4)
-    n_raters = models.CharField(max_length=15, default='')
+    n_raters = models.CharField(max_length=15)
     category = models.ManyToManyField(Genre)
     releaseDate = models.CharField(max_length=10)
     poster = models.CharField(max_length=200)

@@ -1,0 +1,19 @@
+{% load staticfiles%}
+{{ tv.date }}
+<div class="item">
+    <a href="/playmovies/tvseries/{{ tv.pk }}/{{ tv.date.year }}/{{ tv.date.month }}/{{ tv.date.day }}/">
+        <div class="wrapper">
+            <img src="{{ tv.poster }}" alt="" class="img img-responsive">
+            <div class="detail-section">
+
+                <h4 class="title">{{ tv.season.name }}</h4>
+                <p class="genre"> {% for genre in tv.category.all %}
+                <span>{{ genre }},</span>
+                {% endfor %}
+                 </p>
+            </div>
+        </div>
+    </a>
+</div>
+
+

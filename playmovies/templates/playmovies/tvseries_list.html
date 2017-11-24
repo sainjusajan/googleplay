@@ -1,0 +1,55 @@
+{% extends "playmovies/base.html" %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+    <section id="main-title">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="f-w-300">GooglePlay Movies</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {% include "playmovies/includes/header.html" %}
+    <section id="categorical" class="contain-movies">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2 class="section_title f-w-300">TV Series</h2>
+                </div>
+
+
+                {% for tv in website.day.tvseries.all %}
+                    <div class="col-md-2">
+                        {% include 'playmovies/_tvseries.html' %}
+                    </div>
+                {% endfor %}
+
+
+            </div>
+
+        </div>
+    </section>
+
+
+{% endblock %}
+{% block extra_js %}
+    <script>
+        function dothis(element) {
+            if (element.text == 'TV Series') {
+                $('.contain-movies').hide();
+                $('.contain-series').show();
+                $('.toggle-selector span').text(element.text);
+            } else if (element.text == 'Movies') {
+                $('.contain-series').hide();
+                $('.contain-movies').show();
+                $('.toggle-selector span').text(element.text);
+
+            }
+
+
+        }
+    </script>
+{% endblock %}

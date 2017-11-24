@@ -197,7 +197,7 @@ a:focus, a:hover {
   padding: 3em;
   padding-top: 0; }
   .tv-episodes-list-seasonwise #season_selector {
-    max-width: 120px;
+    max-width: 175px;
     background: transparent;
     border: 0;
     box-shadow: none;
@@ -240,3 +240,7 @@ a:focus, a:hover {
     padding: 8px;
     padding-top: 0;
     color: initial; }
+
+.put_handle {
+  display: block;
+  cursor: pointer; }

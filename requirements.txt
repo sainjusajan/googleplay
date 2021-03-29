@@ -17,7 +17,7 @@ pickleshare==0.7.4
 play-scraper==0.1.11
 prompt-toolkit==1.0.15
 ptyprocess==0.5.2
-Pygments==2.2.0
+Pygments==2.7.4
 requests==2.18.4
 scandir==1.6
 selenium==3.7.0
